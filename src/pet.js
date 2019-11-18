@@ -1,5 +1,4 @@
-const fido = new Pet("Fido");
-// const MAXIMUM_FITNESS = 10;
+const MAXIMUM_FITNESS = 10;
 
 function Pet(name) {
   this.name = name;
@@ -8,24 +7,37 @@ function Pet(name) {
   this.fitness = 10;
   return this;
 }
+
 Pet.prototype.growUp = function() {
   this.age += 1;
   this.hunger += 5;
   this.fitness -= 3;
   return this;
 };
+
 Pet.prototype.walk = function() {
   if (this.fitness + 4 <= 10) {
     this.fitness += 4;
   } else {
     this.fitness = 10;
   }
+
   Pet.prototype.feed = function() {
     this.hunger -= 3;
-    return this;
+    return this.hunger;
+  };
+
+  Pet.prototype.checkUp = function() {
+    if (this.fitness <= 2) {
+      return "I need a walk";
+    } else if (this.hunger > 5) {
+      return "I am hungry!";
+    } else if (this.hunger > 5 && this.fitness < 3) {
+      return "I am hungry AND I need a walk";
+    } else {
+      return "I feel great!";
+    }
   };
 };
-
-console.log(new Pet());
 
 module.exports = Pet;

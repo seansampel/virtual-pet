@@ -1,62 +1,61 @@
 const Pet = require("../src/pet");
 
 describe("constructor", () => {
-  it("sets the name property", () => {
-    const pet = new Pet("Fido");
+  let pet;
+  beforeEach(() => {
+    pet = new Pet("Fido");
+    pet.fitness = 10;
+    pet.hunger = 0;
+    pet.age = 0;
+  });
 
+  it("sets the name property", () => {
     expect(pet.name).toEqual("Fido");
   });
-});
 
-describe("growUp", () => {
   it("increments the hunger by 5", () => {
-    const pet = new Pet("Fido");
-
     pet.growUp();
 
     expect(pet.hunger).toEqual(5);
   });
 
-  describe("growUp", () => {
-    it("decreases the fitness by 3", () => {
-      const pet = new Pet("Fido");
+  it("decreases the fitness by 3", () => {
+    pet.growUp();
 
-      pet.growUp();
+    expect(pet.fitness).toEqual(7);
+  });
 
-      expect(pet.fitness).toEqual(7);
-    });
+  it("increases fitness by 4", () => {
+    pet.fitness = 4;
+    pet.walk();
 
-    describe("walk", () => {
-      it("increases fitness by 4", () => {
-        const pet = new Pet("fido");
+    expect(pet.fitness).toEqual(8);
+  });
 
-        pet.fitness = 4;
-        pet.walk();
+  it("increases fitness by to a maximum of 10", () => {
+    pet.fitness = 8;
+    pet.walk();
 
-        expect(pet.fitness).toEqual(8);
-      });
+    expect(pet.fitness).toEqual(10);
+  });
 
-      describe("walk", () => {
-        it("increases fitness by to a maximum of 10", () => {
-          const pet = new Pet("fido");
+  it("decreases hunger by 3", () => {
+    pet.fitness = 8;
+    pet.hunger = 5;
+    pet.feed();
 
-          pet.fitness = 8;
-          pet.walk();
+    expect(pet.hunger).toEqual(2);
+  });
 
-          expect(pet.fitness).toEqual(10);
-        });
-        describe("feed", () => {
-          it("decreases hunger by 3", () => {
-            const pet = new Pet("fido");
+  it("should return I need a walk if fitness is below 3", () => {
+    pet.fitness = 2;
 
-            pet.fitness = 8;
-            pet.hunger = 5;
-            pet.feed();
+    expect(pet.checkUp()).toBe("I need a walk");
+  });
 
-            expect(pet.hunger).toEqual(2);
-          });
-        });
-      });
-    });
+  it("should return I feel great if fitness is 10", () => {
+    pet.fitness = 10;
+    pet.hunger = 0;
+    expect(pet.checkUp()).toBe("I feel great!");
   });
 });
